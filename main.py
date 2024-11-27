@@ -7,15 +7,15 @@ import pandas as pd
 def fetch_inventory_data():
     # Create client
     client = lark.Client.builder() \
-        .app_id("cli_a63f1c47b3b8d010") \
-        .app_secret("hRcpoJJ3WDr0K0w9kR0T6eVJ7y0pDhEX") \
+        .app_id("cli_a6b08cd2e838502f") \
+        .app_secret("zURasgrfm6VStaYzzNAYqlld8usD3Cn2") \
         .log_level(lark.LogLevel.DEBUG) \
         .build()
 
     # Construct request object
     request = ListAppTableRecordRequest.builder() \
-        .app_token("IkF8bLyBBau9desAkQllY8JKgud") \
-        .table_id("tbloP02DaJyGPE2Q") \
+        .app_token("SAnmbQyfMaOxOzsgxcMlBZ9WgQh") \
+        .table_id("tblrUvzYYT8tbSPQ") \
         .build()
 
     # Make the request
@@ -31,13 +31,16 @@ def fetch_inventory_data():
     for item in response.data.items:
         record_data = {
             "Mã vật tư": item.fields.get("Mã vật tư", ""),
-            "Màu": item.fields.get("Màu", ""),
+            "tone màu": item.fields.get("Màu", ""),
             "Record ID": item.record_id,
-            "m2": item.fields.get("m2","")
+            "Thực tồn": item.fields.get("Thực tồn (Tổng nhập - Tổng xuất)",""),
+            "Tồn kho":item.fields.get("Tồn kho (Thực tồn - sale đặt)","")
         }
         records_container.append(record_data)
         sorted_data = sorted(records_container, key=lambda item: int(item['m2']))
     return sorted_data
+
+
 
 # Function to filter data based on color and inventory quantity
 def find_data(data, color,m2):
