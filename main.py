@@ -37,7 +37,7 @@ def fetch_inventory_data():
             "Tồn kho":item.fields.get("Tồn kho (Thực tồn - sale đặt)","")
         }
         records_container.append(record_data)
-        sorted_data = sorted(records_container, key=lambda item: int(item['m2']))
+        sorted_data = sorted(records_container, key=lambda item: int(item['Thực tồn']))
     return sorted_data
 
 
