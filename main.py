@@ -43,17 +43,15 @@ def fetch_inventory_data():
 
 
 # Function to filter data based on color and inventory quantity
-def find_data(data, color,m2):
+def find_data(data, color, thucTon):
     # Tìm tất cả mã vật tư có màu tương ứng
-    result = [item for item in data if item['Màu'] == color and int(item['m2']) >= int(m2)]
-    
+    result = [item for item in data if item['tone màu'] == color and int(item['Thực tồn']) >= int(thucTon)]
     
     # Kiểm tra và in kết quả
     if result:
-        df = pd.DataFrame(result, columns=['Mã vật tư', 'Màu', 'm2'])
+        df = pd.DataFrame(result, columns=['Mã vật tư', 'tone màu', 'Thực tồn', 'Tồn kho'])
         
         # Hiển thị bảng dữ liệu
-        st.write(f"Các mã vật tư có màu {color} và m2 >= {m2} là:")
         st.write(df)
     else:
         st.write(f"Không tìm thấy mã vật tư nào có màu {color}.")
