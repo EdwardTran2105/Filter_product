@@ -31,10 +31,10 @@ def fetch_inventory_data():
     for item in response.data.items:
         record_data = {
             "Mã vật tư": item.fields.get("Mã vật tư", ""),
-            "tone màu": item.fields.get("Màu", ""),
-            "Record ID": item.record_id,
+            "tone màu": item.fields.get("tone màu", ""),
             "Thực tồn": item.fields.get("Thực tồn (Tổng nhập - Tổng xuất)",""),
-            "Tồn kho":item.fields.get("Tồn kho (Thực tồn - sale đặt)","")
+            "Tồn kho": item.fields.get("Tồn kho (Thực tồn - sale đặt)",""),
+            # "Hình ảnh": item.fields.get("Ảnh","")
         }
         records_container.append(record_data)
         sorted_data = sorted(records_container, key=lambda item: int(item['Thực tồn']))
@@ -60,17 +60,22 @@ def find_data(data, color, thucTon):
 def main():
     st.title("Inventory Query App")
 
-    # Fetch data
-    data = fetch_inventory_data()
-    if data is None:
-        st.stop()
-
+    
     # Inputs
-    color = st.text_input("Enter Color:")
+    colors = ["gỗ hương", "gỗ sồi", "gỗ óc chó", "xám", "gỗ sồi trắng", "khác"]
+
+# Sử dụng selectbox để tạo dropdown
+    color = st.selectbox("Select Color:", colors)
+# Hiển thị kết quả được chọn
     tonkho = st.number_input("Enter Minimum Inventory Quantity:", min_value=0)
 
     if st.button("Query"):
+        # Fetch data
+        data = fetch_inventory_data()
+        if data is None:
+            st.stop()
         if color:
+            
             filtered_data = find_data(data, color, tonkho)
             st.write(filtered_data)
         else:
